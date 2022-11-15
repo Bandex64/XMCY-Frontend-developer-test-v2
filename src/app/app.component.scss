@@ -1,0 +1,21 @@
+@import './_colors';
+
+mat-toolbar-row {
+    display: flex;
+    justify-content: center;
+    height: 120px;
+
+    button {
+        flex: 0.4;
+        height: 80px;
+        font-size: 1.5em;
+
+        &:not(:last-child) {
+            margin-right: 5%;
+        }
+
+        &.active {
+            background-color: $accent;
+        }
+    }
+}
