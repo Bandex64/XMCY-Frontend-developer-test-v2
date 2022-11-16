@@ -44,9 +44,9 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    const toolbar = compiled.querySelector('router-outlet');
+    const outlet = compiled.querySelector('router-outlet');
 
-    expect(toolbar).toBeDefined();
+    expect(outlet).toBeDefined();
   });
 
   it('should navigate to the default path when clicking on the "Photos" button and highlgiht the buttomn itself', fakeAsync(() => {

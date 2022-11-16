@@ -1,15 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { FavoritesService } from '../services/favorites.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-single-photo',
   templateUrl: './single-photo.component.html',
-  styleUrls: ['./single-photo.component.css']
+  styleUrls: ['./single-photo.component.scss']
 })
 export class SinglePhotoComponent implements OnInit {
+  imageUrl: string = '';
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private favoritesService: FavoritesService) { }
 
   ngOnInit(): void {
+    console.log(this.route.url);
+    this.imageUrl = this.route.snapshot.paramMap.get('id') || '';
   }
 
+  removeFromFavorites() {
+    this.favoritesService.removeImageUrl(this.imageUrl);
+  }
 }

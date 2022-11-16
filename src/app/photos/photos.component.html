@@ -1,1 +1,7 @@
-<p>photos works!</p>
+<div class="grid-wrapper">
+    <mat-grid-list cols="4">
+        <mat-grid-tile *ngFor="let url of imageUrls">
+            <img src="{{url}}" (click)="addToFavorites(url)">
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

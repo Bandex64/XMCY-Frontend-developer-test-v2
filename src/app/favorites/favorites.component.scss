@@ -1,0 +1,6 @@
+@import '../_variables';
+
+.grid-wrapper {
+    overflow-y: scroll;
+    height: calc(100% - $toolbar-height);
+}

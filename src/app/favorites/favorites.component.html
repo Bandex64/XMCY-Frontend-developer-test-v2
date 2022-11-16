@@ -1,1 +1,7 @@
-<p>favorites works!</p>
+<div class="grid-wrapper">
+    <mat-grid-list cols="4">
+        <mat-grid-tile *ngFor="let url of favoriteImageUrls">
+            <img src="{{url}}" [routerLink]="['/photos', url]">
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

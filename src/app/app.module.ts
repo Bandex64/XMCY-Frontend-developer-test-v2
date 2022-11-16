@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { AppRoutingModule } from './app.routing.module';
 import { PhotosComponent } from './photos/photos.component';
 import { SinglePhotoComponent } from './single-photo/single-photo.component';
@@ -23,7 +25,9 @@ import { FavoritesComponent } from './favorites/favorites.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
-    AppRoutingModule
+    MatGridListModule,
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

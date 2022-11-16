@@ -1,6 +1,0 @@
-@use 'sass:map';
-@use '@angular/material' as mat;
-
-@include mat.core();
-
-$accent: mat.get-color-from-palette(mat.$pink-palette, 500);
