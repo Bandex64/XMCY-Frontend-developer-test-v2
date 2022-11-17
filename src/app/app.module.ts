@@ -14,6 +14,7 @@ import { PhotosComponent } from './photos/photos.component';
 import { SinglePhotoComponent } from './single-photo/single-photo.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ScrollEndIndicatorComponent } from './photos/scroll-end-indicator/scroll-end-indicator.component';
+import { ImageGridComponent } from './image-grid/image-grid.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ScrollEndIndicatorComponent } from './photos/scroll-end-indicator/scrol
     PhotosComponent,
     SinglePhotoComponent,
     FavoritesComponent,
-    ScrollEndIndicatorComponent
+    ScrollEndIndicatorComponent,
+    ImageGridComponent
   ],
   imports: [
     BrowserModule,

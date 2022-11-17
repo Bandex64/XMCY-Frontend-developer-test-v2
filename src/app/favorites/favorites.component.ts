@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FavoritesService } from '../services/favorites.service';
 
 @Component({
@@ -9,7 +10,11 @@ import { FavoritesService } from '../services/favorites.service';
 export class FavoritesComponent {
   favoriteImageUrls: string[];
 
-  constructor(private favoritesService: FavoritesService) {
+  constructor(private favoritesService: FavoritesService, private router: Router) {
     this.favoriteImageUrls = this.favoritesService.getFavoriteImageUrls();
+  }
+
+  imageClicked(url: string) {
+    this.router.navigate(['photos',url]);
   }
 }

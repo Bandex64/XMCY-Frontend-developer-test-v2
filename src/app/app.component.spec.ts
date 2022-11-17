@@ -33,9 +33,9 @@ describe('AppComponent', () => {
     const btnPhotos = toolbar?.querySelector('#btn-photos');
     const btnFavorites = toolbar?.querySelector('#btn-favorites');
 
-    expect(toolbar).toBeDefined();
-    expect(btnPhotos).toBeDefined();
-    expect(btnFavorites).toBeDefined();
+    expect(toolbar).toBeTruthy();
+    expect(btnPhotos).toBeTruthy();
+    expect(btnFavorites).toBeTruthy();
   });
 
   it(`should render a router-outlet`, () => {
@@ -46,7 +46,7 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const outlet = compiled.querySelector('router-outlet');
 
-    expect(outlet).toBeDefined();
+    expect(outlet).toBeTruthy();
   });
 
   it('should navigate to the default path when clicking on the "Photos" button and highlgiht the buttomn itself', fakeAsync(() => {

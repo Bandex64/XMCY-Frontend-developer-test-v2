@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -6,12 +6,21 @@ import { FavoritesService } from '../services/favorites.service';
 import { ImageLoaderService } from '../services/image.service';
 
 import { PhotosComponent } from './photos.component';
-import { ScrollEndIndicatorComponent } from './scroll-end-indicator/scroll-end-indicator.component';
 
 let mockCounter = 0;
 
 const mockImageLoaderService = { getRandomImage: () => of(`random_image_url_${mockCounter++}`) };
 const mockFavoritesService = { addImageUrl: (url: string) => url };
+
+@Component({
+  template: '<ng-content></ng-content>',
+  selector: 'app-image-grid'
+})
+class MockImageGridComponent {
+  @Input() imageUrls = [];
+
+  @Output() imageClicked = new EventEmitter();
+}
 
 @Component({
   selector: 'app-scroll-end-indicator'
@@ -32,7 +41,7 @@ describe('PhotosComponent', () => {
     mockCounter = 0;
 
     await TestBed.configureTestingModule({
-      declarations: [ PhotosComponent, MockScrollEndIndicator ],
+      declarations: [ PhotosComponent, MockScrollEndIndicator, MockImageGridComponent ],
       providers: [
         { provide: ImageLoaderService, useValue: mockImageLoaderService },
         { provide: FavoritesService, useValue: mockFavoritesService }
@@ -49,55 +58,54 @@ describe('PhotosComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render 12 image elements initially', () => {    
+  it('should render the ImageGridComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const images = compiled.querySelectorAll('img');
+    const imageGrid = compiled.querySelector('app-image-grid');
 
-    expect(images.length).toEqual(12);
+    expect(imageGrid).toBeTruthy();
   });
 
-  it('should set the url received from the image service as image source when initalizing', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const images = compiled.querySelectorAll('img');
 
-    images.forEach((img, index) => {
-      expect(img.getAttribute('src')).toEqual(`random_image_url_${index}`);
+  it('should pass 12 image urls to the grid component initially', () => {    
+    const imageuRls = fixture.debugElement.query(By.directive(MockImageGridComponent)).componentInstance.imageUrls;
+    fixture.detectChanges();
+
+    expect(imageuRls.length).toEqual(12);
+    imageuRls.forEach((url: string, index: number) => {
+      expect(url).toEqual(`random_image_url_${index}`);
     });
   });
 
-  it('should add the image to the favorites when user clicks on it', fakeAsync(() => {
+
+  it('should add the proper image url to the favorites when ImageGridComponent emits a click event', () => {
+    const mockUrl = 'clicked_image_url';
+
     spyOn(mockFavoritesService, 'addImageUrl');
 
-    const compiled = fixture.nativeElement as HTMLElement;
-    const images = compiled.querySelectorAll('img');
+    fixture.debugElement.query(By.directive(MockImageGridComponent)).componentInstance.imageClicked.emit(mockUrl);
+    fixture.detectChanges();
 
-    images.forEach((img, index) => {
-      img.click();
-      tick();
+    expect(mockFavoritesService.addImageUrl).toHaveBeenCalledWith(mockUrl);
+  });
 
-      expect(mockFavoritesService.addImageUrl).toHaveBeenCalledWith(`random_image_url_${index}`);
-    });
-  }));
-
-  it('should render the ScrollEndIndicatorCoponent', () => {
+  it('should project the ScrollEndIndicatorCoponent to the ImageGridComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const scrollEndIndicator = compiled.querySelector('app-scroll-end-indicator') as HTMLElement;
 
-    expect(scrollEndIndicator).toBeDefined();
+    expect(scrollEndIndicator).toBeTruthy();
   });
 
-  it('should load 4 more images when bottom of the page has been reched', () => {
+  it('should load 4 more images when bottom of the page has been reached', () => {
     spyOn(mockFavoritesService, 'addImageUrl');
+
+    const imageuRls = fixture.debugElement.query(By.directive(MockImageGridComponent)).componentInstance.imageUrls;
 
     fixture.debugElement.query(By.directive(MockScrollEndIndicator)).componentInstance.scrollEndReached.emit();
     fixture.detectChanges();
 
-    const compiled = fixture.nativeElement as HTMLElement;
-    const images = compiled.querySelectorAll('img');
-
-    expect(images.length).toEqual(16);
-    images.forEach((img, index) => {
-      expect(img.getAttribute('src')).toEqual(`random_image_url_${index}`);
+    expect(imageuRls.length).toEqual(16);
+    imageuRls.forEach((url: string, index: number) => {
+      expect(url).toEqual(`random_image_url_${index}`);
     });
   });
 });

@@ -44,7 +44,7 @@ describe('SinglePhotoComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const img = compiled.querySelector('img') as HTMLElement;
 
-    expect(img).toBeDefined();
+    expect(img).toBeTruthy();
     expect(mockActivatedRoute.snapshot.paramMap.get).toHaveBeenCalledOnceWith('id');
     expect(fixture.componentInstance.imageUrl).toEqual(mockImageUrl);
   });
@@ -53,7 +53,7 @@ describe('SinglePhotoComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const btn = compiled.querySelector('#btn-remove-favorites') as HTMLElement;
 
-    expect(btn).toBeDefined();
+    expect(btn).toBeTruthy();
   });
 
   it('should remove the given image from the list of favorites when the remove button is clicked by the user', fakeAsync(() => {

@@ -3,7 +3,7 @@
 mat-toolbar-row {
     display: flex;
     justify-content: center;
-    height: 120px;
+    height: $toolbar-height;
 
     button {
         flex: 0.4;
