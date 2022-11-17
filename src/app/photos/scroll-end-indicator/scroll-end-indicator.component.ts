@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { delay, Subject } from 'rxjs';
 
 @Component({
@@ -6,17 +6,17 @@ import { delay, Subject } from 'rxjs';
   templateUrl: './scroll-end-indicator.component.html',
   styleUrls: ['./scroll-end-indicator.component.scss']
 })
-export class ScrollEndIndicatorComponent implements OnInit, OnDestroy {
+export class ScrollEndIndicatorComponent implements AfterViewInit, OnDestroy {
   @Output() scrollEndReached: EventEmitter<string[]> = new EventEmitter();
 
-  intersected: boolean = false;
+  protected intersected: boolean = false;
 
   private interSectionObserver: IntersectionObserver | undefined;
   private delaySubject = new Subject();
 
   constructor(private element: ElementRef) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.createObserver();
 
     this.delaySubject.pipe(delay(300)).subscribe(()=> {
