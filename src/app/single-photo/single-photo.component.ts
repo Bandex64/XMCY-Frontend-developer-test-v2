@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FavoritesService } from '../services/favorites.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-single-photo',
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class SinglePhotoComponent implements OnInit {
   imageUrl: string = '';
 
-  constructor(private route: ActivatedRoute, private favoritesService: FavoritesService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private favoritesService: FavoritesService) { }
 
   ngOnInit(): void {
     console.log(this.route.url);
@@ -19,5 +19,6 @@ export class SinglePhotoComponent implements OnInit {
 
   removeFromFavorites() {
     this.favoritesService.removeImageUrl(this.imageUrl);
+    this.router.navigate(['favorites']);
   }
 }

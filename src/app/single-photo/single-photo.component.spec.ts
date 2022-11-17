@@ -1,5 +1,7 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { FavoritesService } from '../services/favorites.service';
 
 import { SinglePhotoComponent } from './single-photo.component';
@@ -14,6 +16,9 @@ const mockActivatedRoute =  {
 };
 const mockFavoritesService = { removeImageUrl: (url: string) => url };
 
+@Component({})
+class DummyComponent {}
+
 describe('SinglePhotoComponent', () => {
   let component: SinglePhotoComponent;
   let fixture: ComponentFixture<SinglePhotoComponent>;
@@ -23,6 +28,7 @@ describe('SinglePhotoComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [ SinglePhotoComponent ],
+      imports: [RouterTestingModule.withRoutes([{path: 'favorites', component: DummyComponent}])],
       providers: [
         {provide: ActivatedRoute, useValue: mockActivatedRoute},
         {provide: FavoritesService, useValue: mockFavoritesService}
@@ -66,5 +72,19 @@ describe('SinglePhotoComponent', () => {
     tick();
 
     expect(mockFavoritesService.removeImageUrl).toHaveBeenCalledOnceWith(mockImageUrl);
+  }));
+
+  it('shoudld navigate back to the favorites page when image was removed', fakeAsync(() => {
+    const router = TestBed.inject(Router);
+
+    spyOn(router, 'navigate');
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    const btn = compiled.querySelector('#btn-remove-favorites') as HTMLElement;
+
+    btn.click();
+    tick();
+
+    expect(router.navigate).toHaveBeenCalledOnceWith(['favorites']);
   }));
 });

@@ -30,7 +30,7 @@ describe('FavoritesService', () => {
     expect(service.getFavoriteImageUrls()).toEqual([]);
   });
 
-  it('should add the given image url to the favorties list and also update the local storage by calling the addImage method', () => {
+  it('should add the given image url to the favorites list and also update the local storage by calling the addImage method', () => {
     spyOn(localStorage, 'getItem').and.returnValue('url1,url2,url3');
     spyOn(localStorage, 'setItem');
 
@@ -41,6 +41,19 @@ describe('FavoritesService', () => {
 
     expect(service.getFavoriteImageUrls()).toEqual(['url1', 'url2', 'url3', 'url4']);
     expect(localStorage.setItem).toHaveBeenCalledOnceWith(FAVORITES_LOCAL_STORAGE_KEY, 'url1,url2,url3,url4');
+  });
+
+  it('should not add the given image url to the favorites list when the image is already added to it', () => {
+    spyOn(localStorage, 'getItem').and.returnValue('url1,url2,url3');
+    spyOn(localStorage, 'setItem');
+
+    TestBed.configureTestingModule({});
+    const service = TestBed.inject(FavoritesService);
+
+    service.addImageUrl('url3');
+
+    expect(service.getFavoriteImageUrls()).toEqual(['url1', 'url2', 'url3']);
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0);
   });
 
   it('should remove the given image url to the favorties list and also update the local storage by calling the removeImage method', () => {

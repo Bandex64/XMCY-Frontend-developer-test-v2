@@ -19,8 +19,10 @@ export class FavoritesService {
   }
 
   addImageUrl(url: string) {
-    this.favoriteImageUrls.push(url);
-    this.storage.setItem(FAVORITES_LOCAL_STORAGE_KEY, this.favoriteImageUrls.toString());
+    if (!this.favoriteImageUrls.includes(url)) {
+      this.favoriteImageUrls.push(url);
+      this.storage.setItem(FAVORITES_LOCAL_STORAGE_KEY, this.favoriteImageUrls.toString());
+    }
   }
 
   removeImageUrl(url: string) {
